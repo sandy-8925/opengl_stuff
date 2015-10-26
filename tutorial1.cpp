@@ -1,9 +1,10 @@
 #include <iostream>
 #include <GL/glew.h>
-#include <GL/gl.h>
 #include <GLFW/glfw3.h>
 
 using namespace std;
+
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 
 int main() {
 	glfwInit();
@@ -26,7 +27,27 @@ int main() {
 		return -1;
 	}
 
-	glViewPort(0, 0, 800, 600);
+	glfwSetKeyCallback(window, key_callback);
+
+	glViewport(0, 0, 800, 600);
+	glClearColor(0.7f, 0.6f, 0.0f, 0.9f);
+
+	while(!glfwWindowShouldClose(window)) {
+		glfwPollEvents();
+		glClear(GL_COLOR_BUFFER_BIT);
+		glfwSwapBuffers(window);
+	}
+
+	glfwTerminate();
 
 	return 0;
 }
+
+
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode) {
+	if(key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
+		glfwSetWindowShouldClose(window, GL_TRUE);
+	}
+}
+
+
