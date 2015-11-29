@@ -10,7 +10,28 @@ GLfloat vertices[] = {
      0.0f,  0.5f, 0.0f
 };  
 
+GLuint VAO;
+GLuint shaderProgram;
+
+void setupOpenGLDrawingCode();
+void drawStuff();
+GLuint createShader(GLenum shaderType, GLchar** shaderSource);
+bool checkShaderCompileStatus(GLuint shader);
+bool checkShaderProgramLinkStatus(GLuint shaderProgram);
+
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
+
+GLchar* vertexShaderSource =  "#version 330 core\n\n\
+                                layout (location = 0) in vec3 position;\n\n\
+                                void main() {\n\
+                                    gl_Position = vec4(position.x, position.y, position.z, 1.0);\n\
+                                }";
+
+GLchar* fragmentShaderSource = "#version 330 core\n\n\
+                                 out vec4 color;\n\n\
+                                 void main() {\n\
+                                    color = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n\
+                                 }";
 
 int main() {
 	glfwInit();
@@ -36,8 +57,10 @@ int main() {
 	glfwSetKeyCallback(window, key_callback);
 
 	glViewport(0, 0, 800, 600);
-	glClearColor(0.7f, 0.6f, 0.0f, 0.9f);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
+        setupOpenGLDrawingCode();
+        
 	while(!glfwWindowShouldClose(window)) {
 		glfwPollEvents();
 		drawStuff();
@@ -51,11 +74,30 @@ int main() {
 
 void drawStuff() {
 	glClear(GL_COLOR_BUFFER_BIT);
-	GLuint VBO;
-	glGenBuffers(1, &VBO);
+        
+        glUseProgram(shaderProgram);
+
+        glBindVertexArray(VAO);
+        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glBindVertexArray(0);
+}
+
+void setupOpenGLDrawingCode() {
+    
+        GLuint VBO;
+        glGenBuffers(1, &VBO);
+        glGenVertexArrays(1, &VAO);        
+        
+        glBindVertexArray(VAO);
+
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+	glEnableVertexAttribArray(0);
         
+        glBindVertexArray(0);
+        
+
 	GLuint vertexShader = createShader(GL_VERTEX_SHADER, &vertexShaderSource);
 	bool vertexShaderCompileSuccess = checkShaderCompileStatus(vertexShader);
         if(!vertexShaderCompileSuccess) {
@@ -68,13 +110,12 @@ void drawStuff() {
             cout << "Fragment shader compilation failed" << endl;
         }
         
-        GLuint shaderProgram = glCreateProgram();
+        shaderProgram = glCreateProgram();
         glAttachShader(shaderProgram, vertexShader);
         glAttachShader(shaderProgram, fragmentShader);
         glLinkProgram(shaderProgram);
         
         bool shaderProgramLinkStatus = checkShaderProgramLinkStatus(shaderProgram);
-        glUseProgram(shaderProgram);
         glDeleteShader(vertexShader);
         glDeleteShader(fragmentShader);
 }
@@ -90,19 +131,24 @@ bool checkShaderCompileStatus(GLuint shader) {
 	GLint success;
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
         if(!success) {
-		GLchar infolog[512];
+		GLchar infoLog[512];
 		glGetShaderInfoLog(shader, 512, NULL, infoLog);
 		cout << "Shader compilation failed\n" << infoLog << endl;
+                return false;
 	}
-	return success;
+	return true;
 }
 
-void checkShaderProgramLinkStatus(shaderProgram) {
+bool checkShaderProgramLinkStatus(GLuint shaderProgram) {
+    GLint success;
     glGetProgramiv(shaderProgram,  GL_LINK_STATUS, &success);
     if(!success) {
-        glgetProgramInfoLog(shaderProgram,  512,  NULL,  infoLog);
+        GLchar infoLog[512];
+        glGetProgramInfoLog(shaderProgram,  512,  NULL,  infoLog);
+        cout << "Shader program linking failed\n" << infoLog << endl;
+        return false;
     }
-    return success;
+    return true;
 }
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode) {
@@ -110,5 +156,3 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		glfwSetWindowShouldClose(window, GL_TRUE);
 	}
 }
-
-
