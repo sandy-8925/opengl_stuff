@@ -1,0 +1,193 @@
+#include <iostream>
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
+using namespace std;
+
+GLfloat vertices[] = {
+     -0.5f,  0.5f, 0.0f,
+     -1.0f, 0.0f, 0.0f,
+    0.0f, 0.0f, 0.0f,
+    0.5f, 0.5f, 0.0f,
+    0.0f, 0.0f, 0.0f,
+    1.0f, 0.0f, 0.0f
+};
+
+GLuint VAO1,VAO2;
+GLuint shaderProgram,blueShaderProgram;
+
+void setupOpenGLDrawingCode();
+void drawStuff();
+GLuint createShader(GLenum shaderType, GLchar** shaderSource);
+bool checkShaderCompileStatus(GLuint shader);
+bool checkShaderProgramLinkStatus(GLuint shaderProgram);
+
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
+
+GLchar* vertexShaderSource =  "#version 330 core\n\n\
+                                layout (location = 0) in vec3 position;\n\n\
+                                void main() {\n\
+                                    gl_Position = vec4(position.x, position.y, position.z, 1.0);\n\
+                                }";
+
+GLchar* fragmentShaderSource = "#version 330 core\n\n\
+                                 out vec4 color;\n\n\
+                                 void main() {\n\
+                                    color = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n\
+                                 }";
+
+GLchar* blueFragmentShaderSource = "#version 330 core\n\n\
+                                 out vec4 color;\n\n\
+                                 void main() {\n\
+                                    color = vec4(0.0f, 0.0f, 1.0f, 1.0f);\n\
+                                 }";
+
+int main() {
+	glfwInit();
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+
+	GLFWwindow* window = glfwCreateWindow(800, 600, "LearnOpenGL", NULL, NULL);
+	if(window == NULL) {
+		cout << "Failed to create GLFW window" << std::endl;
+		glfwTerminate();
+		return -1;
+	}
+	glfwMakeContextCurrent(window);
+
+	glewExperimental = GL_TRUE;
+	if(glewInit() != GLEW_OK) {
+		cout << "Failed to initialize GLEW" << endl;
+		return -1;
+	}
+
+	glfwSetKeyCallback(window, key_callback);
+
+	glViewport(0, 0, 800, 600);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+        setupOpenGLDrawingCode();
+        
+	while(!glfwWindowShouldClose(window)) {
+		glfwPollEvents();
+		drawStuff();
+		glfwSwapBuffers(window);
+	}
+
+	glfwTerminate();
+
+	return 0;
+}
+
+void drawStuff() {
+	glClear(GL_COLOR_BUFFER_BIT);
+        
+        glUseProgram(shaderProgram);
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+       
+	glBindVertexArray(VAO1);
+	glDrawArrays(GL_TRIANGLES, 0, 3);
+        glBindVertexArray(0);
+
+        glUseProgram(blueShaderProgram);
+	glBindVertexArray(VAO2);
+	glDrawArrays(GL_TRIANGLES, 0, 3);
+        glBindVertexArray(0);
+}
+
+GLuint createTriangleVertexArrays(GLsizeiptr size, GLvoid * data) {
+	GLuint VBO, VAO;
+        glGenBuffers(1, &VBO);
+        glGenVertexArrays(1, &VAO);        
+        
+        glBindVertexArray(VAO);
+
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+	glEnableVertexAttribArray(0);
+        
+        glBindVertexArray(0);
+
+	return VAO;
+}
+
+void setupOpenGLDrawingCode() {
+
+	const GLuint numVertices = sizeof(vertices)/2;
+	VAO1 = createTriangleVertexArrays(numVertices, vertices);
+	VAO2 = createTriangleVertexArrays(numVertices, ((GLfloat*)vertices)+9);
+
+	GLuint vertexShader = createShader(GL_VERTEX_SHADER, &vertexShaderSource);
+	bool vertexShaderCompileSuccess = checkShaderCompileStatus(vertexShader);
+        if(!vertexShaderCompileSuccess) {
+            cout << "Vertex shader compilation failed" << endl;
+        }
+
+        GLuint fragmentShader = createShader(GL_FRAGMENT_SHADER, &fragmentShaderSource);
+	bool fragmentShaderCompileSuccess = checkShaderCompileStatus(fragmentShader);
+        if(!fragmentShaderCompileSuccess) {
+            cout << "Fragment shader compilation failed" << endl;
+        }
+        
+        GLuint blueFragmentShader = createShader(GL_FRAGMENT_SHADER, &blueFragmentShaderSource);
+	bool blueFragmentShaderCompileSuccess = checkShaderCompileStatus(blueFragmentShader);
+        if(!blueFragmentShaderCompileSuccess) {
+            cout << "Fragment shader compilation failed" << endl;
+        }
+        
+        shaderProgram = glCreateProgram();
+        glAttachShader(shaderProgram, vertexShader);
+        glAttachShader(shaderProgram, fragmentShader);
+        glLinkProgram(shaderProgram);
+       
+        blueShaderProgram = glCreateProgram();
+        glAttachShader(blueShaderProgram, vertexShader);
+        glAttachShader(blueShaderProgram, blueFragmentShader);
+        glLinkProgram(blueShaderProgram);
+ 
+        bool shaderProgramLinkStatus = checkShaderProgramLinkStatus(shaderProgram);
+        bool blueShaderProgramLinkStatus = checkShaderProgramLinkStatus(blueShaderProgram);
+        glDeleteShader(vertexShader);
+        glDeleteShader(fragmentShader);
+        glDeleteShader(blueFragmentShader);
+}
+
+GLuint createShader(GLenum shaderType, GLchar** shaderSource) {
+	GLuint shaderRef = glCreateShader(shaderType);
+	glShaderSource(shaderRef, 1, shaderSource, NULL);
+	glCompileShader(shaderRef);
+	return shaderRef;
+}
+
+bool checkShaderCompileStatus(GLuint shader) {
+	GLint success;
+	glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+        if(!success) {
+		GLchar infoLog[512];
+		glGetShaderInfoLog(shader, 512, NULL, infoLog);
+		cout << "Shader compilation failed\n" << infoLog << endl;
+                return false;
+	}
+	return true;
+}
+
+bool checkShaderProgramLinkStatus(GLuint shaderProgram) {
+    GLint success;
+    glGetProgramiv(shaderProgram,  GL_LINK_STATUS, &success);
+    if(!success) {
+        GLchar infoLog[512];
+        glGetProgramInfoLog(shaderProgram,  512,  NULL,  infoLog);
+        cout << "Shader program linking failed\n" << infoLog << endl;
+        return false;
+    }
+    return true;
+}
+
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode) {
+	if(key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
+		glfwSetWindowShouldClose(window, GL_TRUE);
+	}
+}

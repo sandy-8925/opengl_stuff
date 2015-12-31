@@ -14,5 +14,8 @@ excercise2_1:
 excercise2_2:
 	g++ -o excercise2_2.out excercise2_2.cpp -lGLEW -lglfw -lGL -lX11 -lpthread -lXrandr -lXi
 
+excercise2_3:
+	g++ -o excercise2_3.out excercise2_3.cpp -lGLEW -lglfw -lGL -lX11 -lpthread -lXrandr -lXi
+
 clean:
 	rm *.out
