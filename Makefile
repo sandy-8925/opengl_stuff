@@ -11,5 +11,8 @@ tutorial2:
 excercise2_1:
 	g++ -o excercise2_1.out excercise2_1.cpp -lGLEW -lglfw -lGL -lX11 -lpthread -lXrandr -lXi
 
+excercise2_2:
+	g++ -o excercise2_2.out excercise2_2.cpp -lGLEW -lglfw -lGL -lX11 -lpthread -lXrandr -lXi
+
 clean:
 	rm *.out
