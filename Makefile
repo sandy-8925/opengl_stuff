@@ -1,6 +1,6 @@
 all: build	
 
-build: tutorial1 tutorial2
+build: tutorial1 tutorial2 excercise2_1 excercise2_2
 
 tutorial1:
 	g++ -o tutorial1.out tutorial1.cpp -lGLEW -lglfw -lGL -lX11 -lpthread -lXrandr -lXi
