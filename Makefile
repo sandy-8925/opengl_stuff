@@ -17,13 +17,16 @@ excercise2_2:
 excercise2_3:
 	g++ -o excercise2_3.out excercise2_3.cpp -lGLEW -lglfw -lGL -lX11 -lpthread -lXrandr -lXi
 
-tutorial3: tutorial3_part1 tutorial3_part2
+tutorial3: tutorial3_part1 tutorial3_part2 tutorial3_part3
 
 tutorial3_part1:
 	g++ -o tutorial3_part1.out tutorial3_part1.cpp -lGLEW -lglfw -lGL -lX11 -lpthread -lXrandr -lXi
 
 tutorial3_part2:
 	g++ -o tutorial3_part2.out tutorial3_part2.cpp -lGLEW -lglfw -lGL -lX11 -lpthread -lXrandr -lXi
+
+tutorial3_part3:
+	g++ -o tutorial3_part3.out tutorial3_part3.cpp -lGLEW -lglfw -lGL -lX11 -lpthread -lXrandr -lXi
 
 clean:
 	rm *.out
