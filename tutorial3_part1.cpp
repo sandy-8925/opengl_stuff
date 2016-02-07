@@ -32,7 +32,7 @@ GLchar* vertexShaderSource =  "#version 330 core\n\n\
 				out vec4 vertexColor;\n\n\
                                 void main() {\n\
                                     gl_Position = vec4(position, 1.0);\n\
-				    vertexColor = vec4(1.0f, 0.0f, 0.0f, 1.0f);\n\
+				    vertexColor = vec4(0.5f, 0.0f, 0.0f, 1.0f);\n\
                                 }";
 
 GLchar* fragmentShaderSource = "#version 330 core\n\n\
