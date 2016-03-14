@@ -28,5 +28,8 @@ tutorial3_part2:
 tutorial3_part3:
 	g++ -o tutorial3_part3.out tutorial3_part3.cpp -lGLEW -lglfw -lGL -lX11 -lpthread -lXrandr -lXi
 
+tutorial3_part4:
+	g++ -o tutorial3_part4.out tutorial3_part4.cpp -lGLEW -lglfw -lGL -lX11 -lpthread -lXrandr -lXi -fpermissive
+
 clean:
 	rm *.out
