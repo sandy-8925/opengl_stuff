@@ -25,8 +25,8 @@ private:
                 std::cout << "Error occurred while trying to read shader file:"  << shaderFilePath << std::endl;
                 return NULL;
             }
-            log("Shader code read from file:");
-            log(shaderString->c_str());
+//            log("Shader code read from file:");
+//            log(shaderString->c_str());
             GLchar* shaderCode = shaderString->c_str();
             return shaderCode;
         }
