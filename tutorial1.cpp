@@ -29,7 +29,9 @@ int main() {
 
 	glfwSetKeyCallback(window, key_callback);
 
-	glViewport(0, 0, 800, 600);
+	int width, height;
+	glfwGetFramebufferSize(window, &width, &height);
+	glViewport(0, 0, width, height);
 	glClearColor(0.7f, 0.6f, 0.0f, 0.9f);
 
 	while(!glfwWindowShouldClose(window)) {
