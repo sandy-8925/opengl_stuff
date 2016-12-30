@@ -35,4 +35,4 @@ tutorial3_excercise1:
 	g++ -o tutorial3_excercise1.out tutorial3_excercise1.cpp -lGLEW -lglfw -lGL -lX11 -lpthread -lXrandr -lXi -fpermissive
 
 clean:
-	rm *.out
+	rm -f *.out
