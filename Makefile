@@ -1,5 +1,5 @@
 CC=gcc
-COMPILE_OPTS=-lGLEW -lglfw -lGL -lX11 -lpthread -lXrandr -lXi
+COMPILE_OPTS=-lGLEW -lglfw -lGL -lX11 -lpthread -lXrandr -lXi -g
 
 all: build	
 
