@@ -40,5 +40,8 @@ tutorial3_excercise1: tutorial3_excercise1.cpp tutorial3_excercise1.vs tutorial3
 tutorial3_excercise2: tutorial3_excercise2.cpp tutorial3_excercise2.vs tutorial3_part4.frag
 	g++ -o tutorial3_excercise2.out tutorial3_excercise2.cpp $(COMPILE_OPTS) -fpermissive
 
+tutorial3_excercise3: tutorial3_excercise3.cpp
+	g++ -o tutorial3_excercise3.out tutorial3_excercise3.cpp $(COMPILE_OPTS) -fpermissive
+
 clean:
 	rm -f *.out
