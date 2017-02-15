@@ -20,7 +20,7 @@ excercise2_2: excercise2_2.cpp
 excercise2_3: excercise2_3.cpp
 	g++ -o excercise2_3.out excercise2_3.cpp $(COMPILE_OPTS)
 
-tutorial3: tutorial3_part1 tutorial3_part2 tutorial3_part3 tutorial3_part4 tutorial3_excercise1
+tutorial3: tutorial3_part1 tutorial3_part2 tutorial3_part3 tutorial3_part4 tutorial3_excercise1 tutorial3_excercise2 tutorial3_excercise3
 
 tutorial3_part1: tutorial3_part1.cpp
 	g++ -o tutorial3_part1.out tutorial3_part1.cpp $(COMPILE_OPTS)
