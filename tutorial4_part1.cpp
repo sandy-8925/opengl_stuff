@@ -82,7 +82,7 @@ void drawStuff() {
 void setupOpenGLDrawingCode() {
         setupVertexAttribs();
 	setupTexture();
-        shader = new Shader("tutorial4.vs", "tutorial4.frag");
+        shader = new Shader("tutorial4_part1.vs", "tutorial4_part1.frag");
 }
 
 void setupVertexAttribs() {
