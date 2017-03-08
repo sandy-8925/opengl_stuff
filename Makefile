@@ -1,5 +1,5 @@
 CC=gcc
-COMPILE_OPTS=-lGLEW -lglfw -lGL -lX11 -lpthread -lXrandr -lXi -g
+COMPILE_OPTS=-lGLEW -lglfw -lGL -lX11 -lpthread -lXrandr -lXi -g -fpermissive
 
 all: build	
 
@@ -32,16 +32,19 @@ tutorial3_part3: tutorial3_part3.cpp
 	g++ -o tutorial3_part3.out tutorial3_part3.cpp $(COMPILE_OPTS)
 
 tutorial3_part4: tutorial3_part4.cpp tutorial3_part4.vs tutorial3_part4.frag
-	g++ -o tutorial3_part4.out tutorial3_part4.cpp $(COMPILE_OPTS) -fpermissive
+	g++ -o tutorial3_part4.out tutorial3_part4.cpp $(COMPILE_OPTS) 
 
 tutorial3_excercise1: tutorial3_excercise1.cpp tutorial3_excercise1.vs tutorial3_part4.frag
-	g++ -o tutorial3_excercise1.out tutorial3_excercise1.cpp $(COMPILE_OPTS) -fpermissive
+	g++ -o tutorial3_excercise1.out tutorial3_excercise1.cpp $(COMPILE_OPTS) 
 
 tutorial3_excercise2: tutorial3_excercise2.cpp tutorial3_excercise2.vs tutorial3_part4.frag
-	g++ -o tutorial3_excercise2.out tutorial3_excercise2.cpp $(COMPILE_OPTS) -fpermissive
+	g++ -o tutorial3_excercise2.out tutorial3_excercise2.cpp $(COMPILE_OPTS) 
 
 tutorial3_excercise3: tutorial3_excercise3.cpp
-	g++ -o tutorial3_excercise3.out tutorial3_excercise3.cpp $(COMPILE_OPTS) -fpermissive
+	g++ -o tutorial3_excercise3.out tutorial3_excercise3.cpp $(COMPILE_OPTS) 
+
+tutorial4: tutorial4.cpp
+	g++ -o tutorial4.out tutorial4.cpp $(COMPILE_OPTS) -lSOIL
 
 clean:
 	rm -f *.out
