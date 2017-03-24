@@ -3,7 +3,7 @@ COMPILE_OPTS=-lGLEW -lglfw -lGL -lX11 -lpthread -lXrandr -lXi -g -fpermissive
 
 all: build	
 
-build: tutorial1 tutorial2 excercise2_1 excercise2_2 excercise2_3 tutorial3
+build: tutorial1 tutorial2 excercise2_1 excercise2_2 excercise2_3 tutorial3 tutorial4
 
 tutorial1: tutorial1.cpp
 	g++ -o tutorial1.out tutorial1.cpp $(COMPILE_OPTS)
