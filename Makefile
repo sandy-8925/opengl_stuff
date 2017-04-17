@@ -57,5 +57,8 @@ tutorial4_part3: tutorial4_part3.cpp tutorial4_part2.vs tutorial4_part3.frag
 tutorial4_excercise1: tutorial4_excercise1.cpp tutorial4_part2.vs tutorial4_excercise1.frag
 	g++ -o tutorial4_excercise1.out tutorial4_excercise1.cpp $(COMPILE_OPTS) -lSOIL
 
+tutorial4_excercise2: tutorial4_excercise2.cpp tutorial4_excercise2.vs tutorial4_excercise2.frag
+	g++ -o tutorial4_excercise2.out tutorial4_excercise2.cpp $(COMPILE_OPTS) -lSOIL
+
 clean:
 	rm -f *.out
