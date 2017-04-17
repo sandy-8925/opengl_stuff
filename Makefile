@@ -60,5 +60,8 @@ tutorial4_excercise1: tutorial4_excercise1.cpp tutorial4_part2.vs tutorial4_exce
 tutorial4_excercise2: tutorial4_excercise2.cpp tutorial4_excercise2.vs tutorial4_excercise2.frag
 	g++ -o tutorial4_excercise2.out tutorial4_excercise2.cpp $(COMPILE_OPTS)
 
+tutorial4_excercise4: tutorial4_excercise4.cpp tutorial4_part2.vs tutorial4_excercise4.frag
+	g++ -o tutorial4_excercise4.out tutorial4_excercise4.cpp $(COMPILE_OPTS)
+	
 clean:
 	rm -f *.out
